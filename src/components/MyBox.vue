@@ -2,6 +2,8 @@
 // Note how there's no template or styles in this component.
 
 // Helper functions to convert a percentage of canvas area to pixels.
+// const percentWidthToPix = (percent, ctx) => Math.floor((ctx.canvas.width / 100) * percent)
+// const percentHeightToPix = (percent, ctx) => Math.floor((ctx.canvas.height / 100) * percent)
 const percentWidthToPix = (percent, ctx) => Math.floor((ctx.canvas.width / 100) * percent)
 const percentHeightToPix = (percent, ctx) => Math.floor((ctx.canvas.height / 100) * percent)
 
@@ -101,7 +103,7 @@ export default {
     ctx.fillStyle = '#000'
     ctx.font = '28px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(Math.floor(this.value), (newBox.x + (newBox.w / 2)), newBox.y - 14)
+    ctx.fillText('fff')//Math.floor(this.value), (newBox.x + (newBox.w / 2)), newBox.y - 14
   }
 }
 </script>

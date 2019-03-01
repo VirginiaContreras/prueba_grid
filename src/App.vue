@@ -4,6 +4,9 @@
     <!-- These are the custom components we'll create -->
     <!-- Values for `my-box` are percentages of the width of the canvas. -->
     <!-- Each bar will take up an equal space of the canvas. -->
+    <!-- :x1="((index / chartValues.length) * 100)"
+        :x2="((index / chartValues.length) * 100) + (100 / chartValues.length)"-->
+        <!-- <my-canvas style="width: 100%; height: 600px;"> -->
     <my-canvas style="width: 100%; height: 600px;">
       <my-box
         v-for="(obj, index) in chartValues"  :key="index"
