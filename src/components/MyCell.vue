@@ -1,0 +1,107 @@
+<script>
+
+const percentWidthToPix = (percent, ctx) => Math.floor((ctx.canvas.width / 100) * percent)
+const percentHeightToPix = (percent, ctx) => Math.floor((ctx.canvas.height / 100) * percent)
+
+export default {
+  inject: ['provider'],
+  props: {
+    x: {
+      type: Number,
+      default: 0
+    },
+    y: {
+      type: Number,
+      default: 0
+    },
+    ancho: {
+      type: Number,
+      default: 0
+    },
+    alto: {
+      type: Number,
+      default: 0
+    },
+    texto: {
+      type: String,
+      default: ''
+    },
+    tipo: {
+      type: String,
+      default: 'celda'
+    }
+  },
+  data () {
+    return {
+      // We cache the dimensions of the previous
+      // render so that we can clear the area later.
+      oldBox: {
+        x: null,
+        y: null,
+        w: null,
+        h: null
+      }
+    }
+  },
+  computed: {
+    calculatedBox () {
+      const ctx = this.provider.context
+
+      // Turn start / end percentages into x, y, width, height in pixels.
+      const calculated = {
+        x: percentWidthToPix(this.x, ctx),
+        y: percentHeightToPix(this.y, ctx),
+        w: percentWidthToPix(this.ancho, ctx),
+        h: percentHeightToPix(this.alto, ctx)
+      }
+
+      // Yes yes, side-effects. This lets us cache the box dimensions of the previous render.
+      // before we re-calculate calculatedBox the next render.
+      this.oldBox = calculated
+      return calculated
+    }
+  },
+  render () {
+    if(!this.provider.context) return;
+    const ctx = this.provider.context;
+
+    // Keep a reference to the box used in the previous render call.
+    const oldBox = this.oldBox
+    // Calculate the new box. (Computed properties update on-demand.)
+    const newBox = this.calculatedBox
+    
+    let background = '';
+    let border = '';
+    let color = '';
+
+    if (this.tipo == 'celda') {
+      background = '#FFFFFF';
+      color = '#000000'; 
+      border = '#00000';
+    }
+    else {
+      background = '#FF5000';
+      color = '#FFFFFF';  
+      border = '#FF5000';  
+    }
+
+    ctx.beginPath();
+    ctx.rect(this.x, this.y, this.ancho, this.alto);
+    ctx.fillStyle = background;
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.rect(this.x, this.y, this.ancho, this.alto);
+    ctx.strokeStyle = border;
+    ctx.stroke();
+    ctx.closePath();
+
+    // Draw the text
+    ctx.fillStyle = color;
+    ctx.font = '20px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + (this.alto / 2)));
+  }
+}
+</script>
