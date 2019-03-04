@@ -76,6 +76,12 @@ export default {
       return calculated
     }
   },
+  methods: {    
+    calcTime(endHour, startHour) {
+      let time = this.endHour - this.startHour
+      return time
+    }
+  }
 
   render () {
     // Since the parent canvas has to mount first, it's *possible* that the context may not be

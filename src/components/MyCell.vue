@@ -29,6 +29,14 @@ export default {
     tipo: {
       type: String,
       default: 'celda'
+    },
+    startHour: {
+      type: String,
+      default: ''
+    },
+    endHour: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -40,7 +48,10 @@ export default {
         y: null,
         w: null,
         h: null
-      }
+      },
+      time: null,
+      minAlt: null,
+      minAn: null
     }
   },
   computed: {
@@ -51,14 +62,25 @@ export default {
       const calculated = {
         x: percentWidthToPix(this.x, ctx),
         y: percentHeightToPix(this.y, ctx),
-        w: percentWidthToPix(this.ancho, ctx),
-        h: percentHeightToPix(this.alto, ctx)
+        w: percentWidthToPix(this.calcMinAn(), ctx),//this.ancho
+        h: percentHeightToPix(this.minAlt * this.time, ctx)
       }
 
       // Yes yes, side-effects. This lets us cache the box dimensions of the previous render.
       // before we re-calculate calculatedBox the next render.
       this.oldBox = calculated
       return calculated
+    }
+  },
+  methods: {    
+    calcTime(endHour, startHour) {
+      this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
+    },
+     calcMinAlt () {
+      this.minAlt = 3508 / (24 * 60)
+    },
+    calcMinAn () {
+      this.minAn = 2480 / 9
     }
   },
   render () {
@@ -86,7 +108,7 @@ export default {
     }
 
     ctx.beginPath();
-    ctx.rect(this.x, this.y, this.ancho, this.alto);
+    ctx.rect(this.x, this.y,this.ancho, this.alto);
     ctx.fillStyle = background;
     ctx.fill();
     ctx.closePath();
@@ -99,9 +121,17 @@ export default {
 
     // Draw the text
     ctx.fillStyle = color;
-    ctx.font = '20px sans-serif';
+    ctx.font = '16px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + (this.alto / 2)));
+  },
+  created() {
+    this.minAlt = 3508 / (24 * 60)
+    this.minAn = 2480 / 9
+    this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
+    console.log(this.minAlt)
+    console.log(this.minAn)
+    console.log(this.time)
   }
 }
 </script>
