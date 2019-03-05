@@ -64,17 +64,17 @@ export default {
       return calculated
     }
   },
-  methods: {    
-    calcTime(endHour, startHour) {
-      this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
-    },
-     calcMinAlto () {
-      this.alto = 3508 / (24 * 60)
-    },
-    calcAncho () {
-      this.ancho = 2480 / 9
-    }
-  },
+  // methods: {    
+  //   calcTime(endHour, startHour) {
+  //     this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
+  //   },
+  //    calcMinAlto () {
+  //     this.alto = 3508 / (24 * 60)
+  //   },
+  //   calcAncho () {
+  //     this.ancho = 2480 / 9
+  //   }
+  // },
   render () {
     if(!this.provider.context) return;
     const ctx = this.provider.context;
@@ -126,10 +126,14 @@ export default {
     //this.ancho = 2480 / 9
     
     if(this.tipo === 'celda') {
-      this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
+      let hoursEndHour = new Date(this.endHour).getHours()// horas fin
+      let minutesEndHour = new Date(this.endHour).getMinutes()//minutos fin
+      let hoursStartHour = new Date(this.startHour).getHours()// horas empieza
+      let minutesStartHour = new Date(this.startHour).getMinutes()//minutos empieza
+      this.time = ((hoursEndHour * 60) + minutesEndHour) - ((hoursStartHour * 60) + minutesStartHour)
       this.alto = this.time * (3508 / (24 * 60))
       this.ancho = 2480 / 9
-      console.log(new Date(this.startHour).getHours())
+      console.log(this.time, 'fff')
     }    
     else if(this.tipo === 'hora') {
       this.time = ''
