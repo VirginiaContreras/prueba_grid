@@ -14,14 +14,6 @@ export default {
       type: Number,
       default: 0
     },
-    ancho: {
-      type: Number,
-      default: 0
-    },
-    alto: {
-      type: Number,
-      default: 0
-    },
     texto: {
       type: String,
       default: ''
@@ -50,8 +42,8 @@ export default {
         h: null
       },
       time: null,
-      minAlt: null,
-      minAn: null
+      alto: null,
+      ancho: null
     }
   },
   computed: {
@@ -62,8 +54,8 @@ export default {
       const calculated = {
         x: percentWidthToPix(this.x, ctx),
         y: percentHeightToPix(this.y, ctx),
-        w: percentWidthToPix(this.calcMinAn(), ctx),//this.ancho
-        h: percentHeightToPix(this.minAlt * this.time, ctx)
+        w: percentWidthToPix(this.ancho, ctx),//this.ancho
+        h: percentHeightToPix(this.alto, ctx)
       }
 
       // Yes yes, side-effects. This lets us cache the box dimensions of the previous render.
@@ -76,11 +68,11 @@ export default {
     calcTime(endHour, startHour) {
       this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
     },
-     calcMinAlt () {
-      this.minAlt = 3508 / (24 * 60)
+     calcMinAlto () {
+      this.alto = 3508 / (24 * 60)
     },
-    calcMinAn () {
-      this.minAn = 2480 / 9
+    calcAncho () {
+      this.ancho = 2480 / 9
     }
   },
   render () {
@@ -88,7 +80,7 @@ export default {
     const ctx = this.provider.context;
 
     // Keep a reference to the box used in the previous render call.
-    const oldBox = this.oldBox
+    //const oldBox = this.oldBox
     // Calculate the new box. (Computed properties update on-demand.)
     const newBox = this.calculatedBox
     
@@ -124,14 +116,32 @@ export default {
     ctx.font = '16px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + (this.alto / 2)));
+
+    console.log(this.alto)
+    console.log(this.ancho)
+    console.log(this.time)
   },
   created() {
-    this.minAlt = 3508 / (24 * 60)
-    this.minAn = 2480 / 9
-    this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
-    console.log(this.minAlt)
-    console.log(this.minAn)
-    console.log(this.time)
+    //this.alto = 3508 / (24 * 60)
+    //this.ancho = 2480 / 9
+    
+    if(this.tipo === 'celda') {
+      this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
+      this.alto = this.time * (3508 / (24 * 60))
+      this.ancho = 2480 / 9
+      console.log(new Date(this.startHour).getHours())
+    }    
+    else if(this.tipo === 'hora') {
+      this.time = ''
+      this.alto = 3508 / (24 * 60) * 15
+      this.ancho = 60
+    }
+    else if(this.tipo === 'cabecera') {
+      this.time = ''
+      this.alto = 40
+      this.ancho = 2480 / 9
+    }
+    
   }
 }
 </script>
