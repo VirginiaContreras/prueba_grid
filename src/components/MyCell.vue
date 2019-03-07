@@ -43,7 +43,11 @@ export default {
       },
       time: null,
       alto: null,
-      ancho: null
+      ancho: null,
+      resolutionWidth: 2480,
+      resolutionHigh: 3508,
+      //timeInterval: 15,
+      //anchoHora: 60
     }
   },
   computed: {
@@ -93,12 +97,16 @@ export default {
       color = '#000000'; 
       border = '#00000';
     }
-    else {
+    else if (this.tipo == 'cabecera') {
       background = '#FF5000';
       color = '#FFFFFF';  
       border = '#FF5000';  
+    } else {
+      background = 'blue';
+      color = '#FFFFFF';  
+      border = 'blue'; 
     }
-
+    //Dibujando el cuadrado del horario
     ctx.beginPath();
     ctx.rect(this.x, this.y,this.ancho, this.alto);
     ctx.fillStyle = background;
@@ -111,11 +119,30 @@ export default {
     ctx.stroke();
     ctx.closePath();
 
+    //Dibujando el cuadrado de la hora interna
+    ctx.beginPath();
+    ctx.rect(this.x, this.y,this.ancho / 3, this.alto / 3);
+    ctx.fillStyle = background;
+    ctx.fill();
+    ctx.background = 'blue';
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.rect(this.x, this.y, this.ancho / 3, this.alto / 3);
+    ctx.strokeStyle = border;
+    ctx.stroke();
+    ctx.closePath();
+
     // Draw the text
     ctx.fillStyle = color;
-    ctx.font = '16px sans-serif';
+    ctx.font = '10px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + (this.alto / 2)));
+    ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));//this.y + (this.alto / 2
+    // Draw the hours
+    // ctx.fillStyle = color;
+    // ctx.font = '8px sans-serif';
+    // ctx.textAlign = 'center';
+    // ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));
 
     console.log(this.alto)
     console.log(this.ancho)
@@ -131,19 +158,20 @@ export default {
       let hoursStartHour = new Date(this.startHour).getHours()// horas empieza
       let minutesStartHour = new Date(this.startHour).getMinutes()//minutos empieza
       this.time = ((hoursEndHour * 60) + minutesEndHour) - ((hoursStartHour * 60) + minutesStartHour)
-      this.alto = this.time * (3508 / (24 * 60))
-      this.ancho = 2480 / 9
+      this.alto = this.time * (this.resolutionHigh / (24 * 60))
+      this.ancho = this.resolutionWidth/7
       console.log(this.time, 'fff')
     }    
-    else if(this.tipo === 'hora') {
-      this.time = ''
-      this.alto = 3508 / (24 * 60) * 15
-      this.ancho = 60
-    }
+    // else if(this.tipo === 'hora') {
+    //   this.time = ''
+    //   this.alto = (this.resolutionHigh / (24 * 60)) * this.timeInterval//36.5416..
+    //   this.ancho = 60
+    //   this.anchoHora = this.ancho
+    // }
     else if(this.tipo === 'cabecera') {
       this.time = ''
-      this.alto = 40
-      this.ancho = 2480 / 9
+      this.alto = (this.resolutionHigh / (24 * 60)) * 15
+      this.ancho = this.resolutionWidth / 7//2480
     }
     
   }
