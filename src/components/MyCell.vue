@@ -29,6 +29,10 @@ export default {
     endHour: {
       type: String,
       default: ''
+    },
+    transmitionDays: {
+      type: Array,
+      default: ''
     }
   },
   data () {
@@ -46,6 +50,8 @@ export default {
       ancho: null,
       resolutionWidth: 2480,
       resolutionHigh: 3508,
+      x: null,
+      y: null
       //timeInterval: 15,
       //anchoHora: 60
     }
@@ -161,6 +167,34 @@ export default {
       this.alto = this.time * (this.resolutionHigh / (24 * 60))
       this.ancho = this.resolutionWidth/7
       console.log(this.time, 'fff')
+      if (this.transmitionDays.length !== 0) {
+        for(i = 0; i < this.transmitionDays.length; i++){
+          switch(this.transmitionDays) {
+          case "Lunes":
+            this.x = 60;
+            break;
+          case "Martes":
+            this.x = 335;
+            break;
+          case "Miércoles":
+            this.x = 610;
+            break;
+          case "Jueves":
+            this.x = 885;
+            break;
+          case "Viernes":
+            this.x = 1160;
+            break;
+          case "Sábado":
+            this.x = 1435;
+            break;
+          case "Domingo":
+            this.x = 1710;
+          }
+      }
+      
+      
+      }
     }    
     // else if(this.tipo === 'hora') {
     //   this.time = ''
