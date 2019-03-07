@@ -124,7 +124,7 @@ export default {
     ctx.rect(this.x, this.y,this.ancho / 3, this.alto / 3);
     ctx.fillStyle = background;
     ctx.fill();
-    ctx.background = 'blue';
+    ctx.background = '#333';
     ctx.closePath();
 
     ctx.beginPath();

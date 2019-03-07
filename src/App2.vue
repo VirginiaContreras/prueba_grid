@@ -42,7 +42,7 @@ export default {
         {texto: 'VIERNES', tipo: 'cabecera', x: 1160, y: 0, startHour: '', endHour: ''},
         {texto: 'SABADO', tipo: 'cabecera', x: 1435, y: 0, startHour: '', endHour: ''},
         {texto: 'DOMINGO', tipo: 'cabecera', x: 1710, y: 0, startHour: '', endHour: ''},
-        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', x: 61, y: (3508 / (24 * 60)) * 15, startHour: 'March 13, 08 05:20', endHour: 'March 13, 08 05:35'},
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', x: 360, y: (3508 / (24 * 60)) * 15, startHour: 'March 13, 08 05:20', endHour: 'March 13, 08 05:35'},
         {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', x: 61, y: (3508 / (24 * 60)) * 15 + 25, startHour: 'March 13, 08 05:20', endHour: 'March 13, 08 05:35'},
         //{texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', x: 100, y: 80, startHour: 'March 13, 08 05:31', endHour: 'March 13, 08 06:30'},
       ]
