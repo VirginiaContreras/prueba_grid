@@ -147,6 +147,13 @@ export default {
         this.highHeadboard = this.alto
         this.ancho = this.resolutionWidth / 7//2480
         this.y = 0
+
+        /*if(this.texto == 'LUNES'){
+          this.x = 0
+        }
+        else if(this.texto == 'MARTES'){
+          this.x = this.resolutionWidth / 7
+        }*/
       }
     },    
     calcTime(endHour, startHour) {
