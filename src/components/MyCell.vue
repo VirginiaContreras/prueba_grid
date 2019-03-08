@@ -53,13 +53,13 @@ export default {
       highHeadboard: null,
       yPrev: 41,
       altoPrevCell: null,
-      yPrevLun: null,
-      yPrevMar: null,
-      yPrevMie: null,
-      yPrevJue: null,
-      yPrevVie: null,
-      yPrevSab: null,
-      yPrevDom: null,
+      yCountLun: 0,
+      yCountMar: 0,
+      yCountMie: 0,
+      yCountJue: 0,
+      yCountVie: 0,
+      yCountSab: 0,
+      yCountDom: 0,
       //x: null,
       //y: null
       //timeInterval: 15,
@@ -87,42 +87,30 @@ export default {
   methods: {
     createdCell(tipo, transmitionDays) {
       if(tipo === 'celda') {
+        //Calculando tiempo del programa
         let hoursEndHour = new Date(this.endHour).getHours()// horas fin
         let minutesEndHour = new Date(this.endHour).getMinutes()//minutos fin
         let hoursStartHour = new Date(this.startHour).getHours()// horas empieza
         let minutesStartHour = new Date(this.startHour).getMinutes()//minutos empieza
         this.time = ((hoursEndHour * 60) + minutesEndHour) - ((hoursStartHour * 60) + minutesStartHour)
-        this.alto = this.time * (this.resolutionHigh / (24 * 60))
-        this.altoPrevCell = this.alto
+        //Calculando alto de la celda
+        this.alto = this.time * (this.resolutionHigh / (24 * 60))   
+        //Calculando ancho de la celda     
         this.ancho = this.resolutionWidth/7
         console.log(this.time, 'time')
-        debugger
-        if( hoursStartHour === 5 && minutesStartHour === 16) {
-          console.log(this.highHeadboard, 'highHeadboard')
-          this.y = this.yPrev
-          console.log(this.y, 'y1')
-          // this.yPrev = this.y
-          console.log(this.yPrev, 'yPrev1')
-        } else {
-          this.y = this.yPrev + this.altoPrevCell
-          console.log(this.yPrev + this.altoPrevCell,'suma')
-          console.log(this.y, 'y')        
-          console.log(this.altoPrevCell, 'altoPrevCell')   
-          this.yPrev = this.y
-          console.log(this.yPrev, 'yPrev')
-        }
+
+        //transmitionDays[0] indica en que día comienza el horario estableciendo 'X'
         if ( transmitionDays.length !== 0) {
-          switch(transmitionDays[0]) {//transmitionDays[0] indica en que día comienza el horario
+          switch(transmitionDays[0]) {
             case "Lunes":
-              //this.yPrevLun = this.y
               this.x = 0;
-              //this.y = this.highHeadboard + 1
-              //this.y = (3508 / (24 * 60)) * this.time
               break;
             case "Martes":
-              //this.yPrevMar = this.y
+              if ( this.yCountMar === 0 ) {
+                localStorage.setItem("yPrev", this.yPrev);
+              }              
               this.x = this.ancho + 1;
-              //.y = (3508 / (24 * 60)) * (this.time * 2)
+              this.yCountMar++
               break;
             case "Miércoles":
               this.x = (this.ancho) * 2 + 1;
@@ -138,22 +126,127 @@ export default {
               break;
             case "Domingo":
               this.x = (this.ancho) * 6 + 1;
-            }   
+          }   
         }
+        
+        //Calculando posición 'Y' en función al tiempo en pixeles
+        debugger
+        if( hoursStartHour === 5 && minutesStartHour === 16) {//Calculando el y por tiempo en pixeles
+          //Calculando la primera celda
+          this.y = this.yPrev
+          console.log(this.y, 'y1')
+          console.log(this.yPrev, 'yPrev1')
+          localStorage.setItem("yPrev", this.yPrev);
+          localStorage.setItem("altoPrev", this.alto);
+        } else {             
+          switch(transmitionDays[0]) {
+            case "Lunes":
+              break;
+            case "Martes":
+              if ( this.yCountMar === 0 ) {
+                localStorage.setItem("yPrev", this.yPrev);
+                localStorage.setItem('altoPrev', 0) 
+                console.log(this.yCountMar,'yCountMar')
+              }              
+              this.yCountMar++
+              break;
+            case "Miércoles":
+              if ( this.yCountMie === 0 ) {
+                localStorage.setItem("yPrev", this.yPrev);
+              }              
+              this.yCountMie++
+              break;
+            case "Jueves":
+              if ( this.yCountJue === 0 ) {
+                localStorage.setItem("yPrev", this.yPrev);
+              }              
+              this.yCountJue++
+              break;
+            case "Viernes":
+              if ( this.yCountVie === 0 ) {
+                localStorage.setItem("yPrev", this.yPrev);
+              }              
+              this.yCountVie++
+              break;
+            case "Sábado":
+              if ( this.yCountSab === 0 ) {
+                localStorage.setItem("yPrev", this.yPrev);
+              }              
+              this.yCountSab++
+              break;
+            case "Domingo":
+              if ( this.yCountDom === 0 ) {
+                localStorage.setItem("yPrev", this.yPrev);
+              }              
+              this.yCountDom++
+            
+          }    
+          let altoPrev = localStorage.getItem('altoPrev')  
+          let yPrev = localStorage.getItem('yPrev')  
+          this.y = Number(yPrev) + Number(altoPrev)
+          console.log('Datos')
+          console.log(yPrev,'yPrev')
+          console.log(altoPrev,'altoPrev')
+          console.log(Number(yPrev) + Number(altoPrev),'suma')
+          console.log(this.y, 'y')        
+          console.log(altoPrev, 'altoPrevCell')   
+          console.log(this.yPrev, 'yPrev')
+          localStorage.setItem("yPrev", this.y);
+          localStorage.setItem("altoPrev", this.alto);
+        }
+        
       } 
       else if( tipo === 'cabecera') {
         this.time = ''
         this.alto = 40 //36.54
         this.highHeadboard = this.alto
         this.ancho = this.resolutionWidth / 7//2480
-        this.y = 0
+        this.y = 0       
 
-        /*if(this.texto == 'LUNES'){
+        if(this.texto == 'LUNES'){
           this.x = 0
         }
         else if(this.texto == 'MARTES'){
-          this.x = this.resolutionWidth / 7
-        }*/
+          this.x = (this.resolutionWidth / 7) + 1
+        }
+        else if(this.texto == 'MIERCOLES'){
+          this.x = ((this.resolutionWidth / 7) * 2) + 1
+        }
+        else if(this.texto == 'JUEVES'){
+          this.x = ((this.resolutionWidth / 7) * 3) + 1
+        }
+        else if(this.texto == 'VIERNES'){
+          this.x = ((this.resolutionWidth / 7) * 4) + 1
+        }
+        else if(this.texto == 'SABADO'){
+          this.x = ((this.resolutionWidth / 7) * 5) + 1
+        }
+        else if(this.texto == 'DOMINGO'){
+          this.x = ((this.resolutionWidth / 7) * 6) + 1
+        }
+
+         // switch(this.texto) {//Calculando posicion x de cabecera
+        //     case "Lunes":
+        //       this.x = 0;
+        //       break;
+        //     case "Martes":
+        //       this.x = (this.resolutionWidth / 7) + 1
+        //       break;
+        //     case "Miércoles":
+        //       this.x = (this.resolutionWidth / 7) * 2 + 1
+        //       break;
+        //     case "Jueves":
+        //       this.x = (this.resolutionWidth / 7) * 3 + 1
+        //       break;
+        //     case "Viernes":
+        //       this.x = (this.resolutionWidth / 7) * 4 + 1
+        //       break;
+        //     case "Sábado":
+        //       this.x = (this.resolutionWidth / 7) * 5 + 1
+        //       break;
+        //     case "Domingo":
+        //       this.x = (this.resolutionWidth / 7) * 6 + 1
+        //     }
       }
     },    
     calcTime(endHour, startHour) {

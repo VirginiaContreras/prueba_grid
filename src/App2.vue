@@ -37,16 +37,19 @@ export default {
         // {texto: '05:30', tipo: 'hora', x: 0, y: 71, startHour: '', endHour: ''},
         // {texto: '05:45', tipo: 'hora', x: 0, y: 111, startHour: '', endHour: ''},
         // {texto: '06:00', tipo: 'hora', x: 0, y: 151, startHour: '', endHour: ''},
-        {texto: 'LUNES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:''},
-        {texto: 'MARTES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:''},
-        {texto: 'MIERCOLES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:''},
-        // {texto: 'JUEVES', tipo: 'cabecera', x: 885, y: 0, startHour: '', endHour: '', transmitionDays:''},
-        // {texto: 'VIERNES', tipo: 'cabecera', x: 1160, y: 0, startHour: '', endHour: '', transmitionDays:''},
-        // {texto: 'SABADO', tipo: 'cabecera', x: 1435, y: 0, startHour: '', endHour: '', transmitionDays:''},
-        // {texto: 'DOMINGO', tipo: 'cabecera', x: 1710, y: 0, startHour: '', endHour: '', transmitionDays:''},
-        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 05:35', transmitionDays: ['Lunes','Martes','Miércoles']},//x: 360, y: (3508 / (24 * 60)) * 15
-        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', startHour: 'March 13, 08 05:36', endHour: 'March 13, 08 05:50', transmitionDays: ['Martes','Viernes']},//x: 61, y: (3508 / (24 * 60)) * 15 + 40
-        {texto: 'ESPECTACULOS', tipo: 'celda', startHour: 'March 13, 08 05:51', endHour: 'March 13, 08 06:50', transmitionDays: ['Miércoles','Viernes']}
+        {texto: 'LUNES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:[]},
+        {texto: 'MARTES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:[]},
+        {texto: 'MIERCOLES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:[]},
+        {texto: 'JUEVES', tipo: 'cabecera', x: 885, y: 0, startHour: '', endHour: '', transmitionDays:[]},
+        {texto: 'VIERNES', tipo: 'cabecera', x: 1160, y: 0, startHour: '', endHour: '', transmitionDays:[]},
+        {texto: 'SABADO', tipo: 'cabecera', x: 1435, y: 0, startHour: '', endHour: '', transmitionDays:[]},
+        {texto: 'DOMINGO', tipo: 'cabecera', x: 1710, y: 0, startHour: '', endHour: '', transmitionDays:[]},
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 06:30', transmitionDays: ['Lunes']},//x: 360, y: (3508 / (24 * 60)) * 15
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', startHour: 'March 13, 08 06:31', endHour: 'March 13, 08 08:00', transmitionDays: ['Lunes']},//x: 61, y: (3508 / (24 * 60)) * 15 + 40
+        {texto: 'AMERICA DEPORTE (G)', tipo: 'celda', startHour: 'March 13, 08 07:18', endHour: 'March 13, 08 08:18', transmitionDays: ['Lunes']},
+        {texto: 'AMERICA ESPECTACULOS (REPETICION)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 06:25', transmitionDays: ['Martes']},
+        {texto: 'AMERICA NOTICIAS: MATUTINO (GP)', tipo: 'celda', startHour: 'March 13, 08 06:30', endHour: 'March 13, 08 06:50', transmitionDays: ['Martes']},
+        {texto: 'AMERICA NOTICIAS: EDICION DEL SABADO (GP)', tipo: 'celda', startHour: 'March 13, 08 07:00', endHour: 'March 13, 08 08:35', transmitionDays: ['Martes']}
       ]
     }
   },
