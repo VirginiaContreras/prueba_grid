@@ -19,7 +19,6 @@
 <script>
 import MyCanvas from './components/MyCanvas.vue';
 import MyCell from './components/MyCell.vue';
-
 export default {
   name: 'app',
   components: {
@@ -45,11 +44,14 @@ export default {
         {texto: 'SABADO', tipo: 'cabecera', x: 1435, y: 0, startHour: '', endHour: '', transmitionDays:[]},
         {texto: 'DOMINGO', tipo: 'cabecera', x: 1710, y: 0, startHour: '', endHour: '', transmitionDays:[]},
         {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 06:30', transmitionDays: ['Lunes']},//x: 360, y: (3508 / (24 * 60)) * 15
-        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', startHour: 'March 13, 08 06:31', endHour: 'March 13, 08 08:00', transmitionDays: ['Lunes']},//x: 61, y: (3508 / (24 * 60)) * 15 + 40
-        {texto: 'AMERICA DEPORTE (G)', tipo: 'celda', startHour: 'March 13, 08 07:18', endHour: 'March 13, 08 08:18', transmitionDays: ['Lunes']},
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', startHour: 'March 13, 08 06:30', endHour: 'March 13, 08 08:00', transmitionDays: ['Lunes']},//x: 61, y: (3508 / (24 * 60)) * 15 + 40
+        {texto: 'AMERICA DEPORTE (G)', tipo: 'celda', startHour: 'March 13, 08 08:00', endHour: 'March 13, 08 09:00', transmitionDays: ['Lunes']},
         {texto: 'AMERICA ESPECTACULOS (REPETICION)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 06:25', transmitionDays: ['Martes']},
-        {texto: 'AMERICA NOTICIAS: MATUTINO (GP)', tipo: 'celda', startHour: 'March 13, 08 06:30', endHour: 'March 13, 08 06:50', transmitionDays: ['Martes']},
-        {texto: 'AMERICA NOTICIAS: EDICION DEL SABADO (GP)', tipo: 'celda', startHour: 'March 13, 08 07:00', endHour: 'March 13, 08 08:35', transmitionDays: ['Martes']}
+        {texto: 'AMERICA NOTICIAS: MATUTINO (GP)', tipo: 'celda', startHour: 'March 13, 08 06:25', endHour: 'March 13, 08 06:50', transmitionDays: ['Martes']},
+        {texto: 'AMERICA NOTICIAS: EDICION DEL SABADO (GP)', tipo: 'celda', startHour: 'March 13, 08 06:50', endHour: 'March 13, 08 08:35', transmitionDays: ['Martes']},
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 06:50', transmitionDays: ['Miércoles']},
+        {texto: 'AMERICA NOTICIAS: EDICION DEL SABADO (GP)', tipo: 'celda', startHour: 'March 13, 08 06:50', endHour: 'March 13, 08 08:35', transmitionDays: ['Miércoles']},
+        {texto: 'AMERICA NOTICIAS: EDICION DEL SABADO (GP)', tipo: 'celda', startHour: 'March 13, 08 08:35', endHour: 'March 13, 08 09:35', transmitionDays: ['Miércoles']},
       ]
     }
   },

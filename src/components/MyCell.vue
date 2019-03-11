@@ -97,8 +97,13 @@ export default {
         this.alto = this.time * (this.resolutionHigh / (24 * 60))   
         //Calculando ancho de la celda     
         this.ancho = this.resolutionWidth/7
-        console.log(this.time, 'time')
-
+        //Calculando Y
+        let a = ((hoursStartHour * 60) + minutesStartHour) - 40
+        this.y = (a * (this.resolutionHigh / (24 * 60))) - 632 //pixeles desde 00:00 hasta 05:16
+        console.log(a)
+        console.log(this.y)
+        console.log(this.time)
+        console.log(this.alto)
         //transmitionDays[0] indica en que día comienza el horario estableciendo 'X'
         if ( transmitionDays.length !== 0) {
           switch(transmitionDays[0]) {
@@ -106,81 +111,101 @@ export default {
               this.x = 0;
               break;
             case "Martes":
-              if ( this.yCountMar === 0 ) {
-                localStorage.setItem("yPrev", this.yPrev);
-              }              
+              //Calculando X de la celda
               this.x = this.ancho + 1;
-              this.yCountMar++
               break;
             case "Miércoles":
+              //Calculando X de la celda
               this.x = (this.ancho) * 2 + 1;
               break;
             case "Jueves":
+              //Calculando X de la celda
               this.x = (this.ancho) * 3 + 1;
               break;
             case "Viernes":
+              //Calculando X de la celda
               this.x = (this.ancho) * 4 + 1;
               break;
             case "Sábado":
+              //Calculando X de la celda
               this.x = (this.ancho) * 5 + 1;
               break;
             case "Domingo":
+              //Calculando X de la celda
               this.x = (this.ancho) * 6 + 1;
           }   
         }
         
         //Calculando posición 'Y' en función al tiempo en pixeles
-        debugger
+        //debugger
         if( hoursStartHour === 5 && minutesStartHour === 16) {//Calculando el y por tiempo en pixeles
           //Calculando la primera celda
-          this.y = this.yPrev
-          console.log(this.y, 'y1')
-          console.log(this.yPrev, 'yPrev1')
+          //this.y = this.yPrev
+          // console.log(this.y, 'y1')
+          // console.log(this.yPrev, 'yPrev1')
           localStorage.setItem("yPrev", this.yPrev);
           localStorage.setItem("altoPrev", this.alto);
-        } else {             
+        }
+         /*else {             
           switch(transmitionDays[0]) {
             case "Lunes":
+              this.x = 0;
               break;
             case "Martes":
-              if ( this.yCountMar === 0 ) {
+              //Reiniciando valores de Y - verificando si es la primera celda Martes
+              if ( Number(localStorage.getItem('yCountMar')) === 0 ) {
                 localStorage.setItem("yPrev", this.yPrev);
-                localStorage.setItem('altoPrev', 0) 
-                console.log(this.yCountMar,'yCountMar')
-              }              
+              }           
               this.yCountMar++
+              localStorage.setItem("yCountMar", this.yCountMar)
               break;
             case "Miércoles":
-              if ( this.yCountMie === 0 ) {
+              //Reiniciando valores de Y - verificando si es la primera celda Miércoles
+              if ( Number(localStorage.getItem('yCountMie')) === 0 ) {
                 localStorage.setItem("yPrev", this.yPrev);
               }              
               this.yCountMie++
+              localStorage.setItem("yCountMie", this.yCountMie)
               break;
             case "Jueves":
-              if ( this.yCountJue === 0 ) {
+              //Reiniciando valores de Y - verificando si es la primera celda Jueves
+              if ( Number(localStorage.getItem('yCountJue')) === 0 ) {
                 localStorage.setItem("yPrev", this.yPrev);
               }              
               this.yCountJue++
+              localStorage.setItem("yCountJue", this.yCountJue)
               break;
             case "Viernes":
-              if ( this.yCountVie === 0 ) {
+              //Reiniciando valores de Y - verificando si es la primera celda Viernes
+              if ( Number(localStorage.getItem('yCountVie')) === 0 ) {
                 localStorage.setItem("yPrev", this.yPrev);
               }              
               this.yCountVie++
+              localStorage.setItem("yCountVie", this.yCountVie)
+              //Calculando X de la celda
+              this.x = (this.ancho) * 4 + 1;
               break;
             case "Sábado":
-              if ( this.yCountSab === 0 ) {
+              //Reiniciando valores de Y - verificando si es la primera celda Sábado
+              if ( Number(localStorage.getItem('yCountSab')) === 0 ) {
                 localStorage.setItem("yPrev", this.yPrev);
               }              
               this.yCountSab++
+              localStorage.setItem("yCountSab", this.yCountSab)
+              //Calculando X de la celda
+              this.x = (this.ancho) * 5 + 1;
               break;
             case "Domingo":
-              if ( this.yCountDom === 0 ) {
+              //Reiniciando valores de Y - verificando si es la primera celda Domingo
+              if ( Number(localStorage.getItem('yCountDom')) === 0 ) {
                 localStorage.setItem("yPrev", this.yPrev);
               }              
               this.yCountDom++
-            
-          }    
+              localStorage.setItem("yCountDom", this.yCountDom)
+              //Calculando X de la celda
+              this.x = (this.ancho) * 6 + 1;
+          }  
+          //Calculando Y de las celdas posteriores 
           let altoPrev = localStorage.getItem('altoPrev')  
           let yPrev = localStorage.getItem('yPrev')  
           this.y = Number(yPrev) + Number(altoPrev)
@@ -193,7 +218,7 @@ export default {
           console.log(this.yPrev, 'yPrev')
           localStorage.setItem("yPrev", this.y);
           localStorage.setItem("altoPrev", this.alto);
-        }
+        }*/
         
       } 
       else if( tipo === 'cabecera') {
@@ -324,17 +349,17 @@ export default {
     // ctx.textAlign = 'center';
     // ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));
 
-    console.log(this.alto, 'alto')
-    console.log(this.ancho, 'ancho')
-    console.log(this.time, 'time')
-    console.log(this.tipo, 'tipo')
-    console.log(this.transmitionDays, 'transmitionDays')
+    // console.log(this.alto, 'alto')
+    // console.log(this.ancho, 'ancho')
+    // console.log(this.time, 'time')
+    // console.log(this.tipo, 'tipo')
+    // console.log(this.transmitionDays, 'transmitionDays')
   },
   created() {
     //this.alto = 3508 / (24 * 60)
     //this.ancho = 2480 / 9    
     this.createdCell(this.tipo, this.transmitionDays)
-    console.log(this.transmitionDays, 'transmitionDays created')
+    // console.log(this.transmitionDays, 'transmitionDays created')
     // if(this.tipo === 'celda') {
     //   let hoursEndHour = new Date(this.endHour).getHours()// horas fin
     //   let minutesEndHour = new Date(this.endHour).getMinutes()//minutos fin
