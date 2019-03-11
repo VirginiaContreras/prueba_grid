@@ -53,17 +53,15 @@ export default {
       highHeadboard: null,
       yPrev: 41,
       altoPrevCell: null,
-      yCountLun: 0,
-      yCountMar: 0,
-      yCountMie: 0,
-      yCountJue: 0,
-      yCountVie: 0,
-      yCountSab: 0,
-      yCountDom: 0,
-      //x: null,
-      //y: null
+      hourString: ''
+      // yCountLun: 0,
+      // yCountMar: 0,
+      // yCountMie: 0,
+      // yCountJue: 0,
+      // yCountVie: 0,
+      // yCountSab: 0,
+      // yCountDom: 0,
       //timeInterval: 15,
-      //anchoHora: 60
     }
   },
   computed: {
@@ -86,21 +84,65 @@ export default {
   },
   methods: {
     createdCell(tipo, transmitionDays) {
+      // "scheduleStartHour": "02",
+      // "scheduleStartMin": "10",
+      // "scheduleEndHour": "03",
+      // "scheduleEndMin": "05",
       if(tipo === 'celda') {
         //Calculando tiempo del programa
         let hoursEndHour = new Date(this.endHour).getHours()// horas fin
         let minutesEndHour = new Date(this.endHour).getMinutes()//minutos fin
         let hoursStartHour = new Date(this.startHour).getHours()// horas empieza
         let minutesStartHour = new Date(this.startHour).getMinutes()//minutos empieza
-        this.time = ((hoursEndHour * 60) + minutesEndHour) - ((hoursStartHour * 60) + minutesStartHour)
+
+        this.hourString = this.showHoursString(hoursStartHour, minutesStartHour, hoursEndHour, minutesEndHour)
+        let sumMinEndHour = (hoursEndHour * 60) + minutesEndHour
+        let sumMinStartHour = (hoursStartHour * 60) + minutesStartHour
+        let startTime
+        //debugger
+        if ( sumMinEndHour < sumMinStartHour ) {
+          this.time = (24 * 60) - sumMinStartHour + sumMinEndHour
+        } else {          
+          this.time = (sumMinEndHour) - (sumMinStartHour)
+        }
+        
         //Calculando alto de la celda
-        this.alto = this.time * (this.resolutionHigh / (24 * 60))   
-        //Calculando ancho de la celda     
-        this.ancho = this.resolutionWidth/7
+        this.alto = this.time * this.calcMinHightToPixel()  
+        //Calculando ancho de la celda
+        debugger
+        if( this.transmitionDays.length === 1) {
+          this.ancho = this.resolutionWidth/7
+        } else if ( this.transmitionDays.length > 1 ) {//Si tiene más de una celda y es consecutivo
+          if( this.transmitionDays.includes('Lunes') && this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado') && this.transmitionDays.includes('Domingo')) {
+            this.ancho = (this.resolutionWidth/7) * 7
+          }
+          else if ( (this.transmitionDays.includes('Lunes') && this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado')) || (this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado') && this.transmitionDays.includes('Domingo'))) {
+            this.ancho = (this.resolutionWidth/7) * 6
+          }
+          else if ( (this.transmitionDays.includes('Lunes') && this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes')) || (this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado')) || (this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado') && this.transmitionDays.includes('Domingo'))) {
+            this.ancho = (this.resolutionWidth/7) * 5
+          }
+          else if ((this.transmitionDays.includes('Lunes') && this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves')) || (this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes')) || (this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado')) || (this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado') && this.transmitionDays.includes('Domingo'))) {
+            this.ancho = (this.resolutionWidth/7) * 4
+          }
+          else if ((this.transmitionDays.includes('Lunes') && this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles')) || (this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves')) || (this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes')) || (this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado')) || (this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado') && this.transmitionDays.includes('Domingo'))) {
+            this.ancho = (this.resolutionWidth/7) * 3
+          }
+          else if ( (this.transmitionDays.includes('Lunes') && this.transmitionDays.includes('Martes')) || (this.transmitionDays.includes('Martes') && this.transmitionDays.includes('Miércoles')) || (this.transmitionDays.includes('Miércoles') && this.transmitionDays.includes('Jueves')) || (this.transmitionDays.includes('Jueves') && this.transmitionDays.includes('Viernes')) || (this.transmitionDays.includes('Viernes') && this.transmitionDays.includes('Sábado')) || (this.transmitionDays.includes('Sábado') && this.transmitionDays.includes('Domingo')) ) {
+            this.ancho = (this.resolutionWidth/7) * 2
+          }          
+        }   
+        
         //Calculando Y
-        let a = ((hoursStartHour * 60) + minutesStartHour) - 40
-        this.y = (a * (this.resolutionHigh / (24 * 60))) - 632 //pixeles desde 00:00 hasta 05:16
-        console.log(a)
+        startTime = ((hoursStartHour * 60) + minutesStartHour) - 40
+    
+        if ( hoursStartHour <= 5 && minutesStartHour <= 15) {
+          this.y = (((24 * 60) + startTime )* this.calcMinHightToPixel()) - 632 
+        } else {
+          this.y = (startTime * (this.resolutionHigh / (24 * 60))) - 632 //pixeles desde 00:00 hasta 05:16
+        }
+        
+        console.log(startTime)
         console.log(this.y)
         console.log(this.time)
         console.log(this.alto)
@@ -249,36 +291,38 @@ export default {
         else if(this.texto == 'DOMINGO'){
           this.x = ((this.resolutionWidth / 7) * 6) + 1
         }
-
-         // switch(this.texto) {//Calculando posicion x de cabecera
-        //     case "Lunes":
-        //       this.x = 0;
-        //       break;
-        //     case "Martes":
-        //       this.x = (this.resolutionWidth / 7) + 1
-        //       break;
-        //     case "Miércoles":
-        //       this.x = (this.resolutionWidth / 7) * 2 + 1
-        //       break;
-        //     case "Jueves":
-        //       this.x = (this.resolutionWidth / 7) * 3 + 1
-        //       break;
-        //     case "Viernes":
-        //       this.x = (this.resolutionWidth / 7) * 4 + 1
-        //       break;
-        //     case "Sábado":
-        //       this.x = (this.resolutionWidth / 7) * 5 + 1
-        //       break;
-        //     case "Domingo":
-        //       this.x = (this.resolutionWidth / 7) * 6 + 1
-        //     }
       }
-    },    
+    },
+    generateHour(hour) {
+      if ( hour[0] === 0 ) {
+        return hour = hour.shift()
+      }
+    },
+    generateMinutes(minutes) {
+      if ( minutes[0] === 0 ) {
+        return minutes = minutes.shift()
+      }
+    },
     calcTime(endHour, startHour) {
       this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
     },
      calcMinHightToPixel () {
-      this.alto = this.resolutionHigh / (24 * 60)
+      return this.alto = this.resolutionHigh / (24 * 60)
+    },
+    showHoursString (hoursStartHour, minutesStartHour, hoursEndHour, minutesEndHour) {
+      if ( hoursStartHour === 0 || hoursStartHour < 10 ) {
+        hoursStartHour = '0' + hoursStartHour
+      }
+      if ( minutesStartHour === 0 || minutesStartHour < 10 ) {
+        minutesStartHour = '0' + minutesStartHour
+      }
+      if ( hoursEndHour === 0 || hoursEndHour < 10 ) {
+        hoursEndHour = '0' + hoursEndHour
+      }
+      if ( minutesEndHour === 0 || minutesEndHour < 10 ) {
+        minutesEndHour = '0' + minutesEndHour
+      }
+      return hoursStartHour + ':' + minutesStartHour + ' - ' + hoursEndHour + ':' + minutesEndHour
     },
     calcAncho () {
       this.ancho = 2480 / 9
@@ -296,20 +340,26 @@ export default {
     let background = '';
     let border = '';
     let color = '';
+    let labelBackgroundColor = '';
+    let labelFontColor = '';
 
     if (this.tipo == 'celda') {
       background = '#FFFFFF';
       color = '#000000'; 
       border = '#00000';
+      // labelBackgroundColor = "gray";
+			// labelFontColor = "white";
     }
     else if (this.tipo == 'cabecera') {
       background = '#FF5000';
       color = '#FFFFFF';  
       border = '#FF5000';  
     } else {
-      background = 'blue';
-      color = '#FFFFFF';  
-      border = 'blue'; 
+      // labelBackgroundColor = "gray";
+			// labelFontColor = "white";
+      background = '#FFDCCC';
+      color = '#000000';  
+      border = '#FFDCCC'; 
     }
     //Dibujando el cuadrado del horario
     ctx.beginPath();
@@ -326,34 +376,36 @@ export default {
 
     //Dibujando el cuadrado de la hora interna
     ctx.beginPath();
-    ctx.rect(this.x, this.y,this.ancho / 3, this.alto / 3);
+    ctx.rect(this.x, this.y,20, 15);
     ctx.fillStyle = background;
     ctx.fill();
-    ctx.background = '#333';
+    ctx.background = '#FFDCCC';
     ctx.closePath();
 
-    ctx.beginPath();
-    ctx.rect(this.x, this.y, this.ancho / 3, this.alto / 3);
-    ctx.strokeStyle = border;
-    ctx.stroke();
-    ctx.closePath();
+    // ctx.beginPath();
+    // ctx.rect(this.x, this.y, this.ancho / 3, this.alto / 3);
+    // ctx.strokeStyle = border;
+    // ctx.stroke();
+    // ctx.closePath();
 
     // Draw the text
     ctx.fillStyle = color;
-    ctx.font = '10px sans-serif';
+    ctx.font = '12px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));//this.y + (this.alto / 2
     // Draw the hours
-    // ctx.fillStyle = color;
-    // ctx.font = '8px sans-serif';
-    // ctx.textAlign = 'center';
-    // ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));
+    
+    ctx.fillStyle = color;
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(this.hourString, (this.x + 50), (this.y + 15));
+    //ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));
 
-    // console.log(this.alto, 'alto')
-    // console.log(this.ancho, 'ancho')
-    // console.log(this.time, 'time')
-    // console.log(this.tipo, 'tipo')
-    // console.log(this.transmitionDays, 'transmitionDays')
+    console.log(this.alto, 'alto')
+    console.log(this.ancho, 'ancho')
+    console.log(this.time, 'time')
+    console.log(this.tipo, 'tipo')
+    console.log(this.transmitionDays, 'transmitionDays')
   },
   created() {
     //this.alto = 3508 / (24 * 60)
