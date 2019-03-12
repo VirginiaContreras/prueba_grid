@@ -7,8 +7,10 @@
         v-for="(obj, index) in schedule"  :key="index"
         :tipo="obj.tipo"
         :texto="obj.texto"
-        :startHour="obj.startHour"
-        :endHour="obj.endHour"
+        :scheduleStartHour="obj.scheduleStartHour"
+        :scheduleStartMin="obj.scheduleStartMin"
+        :scheduleEndHour="obj.scheduleEndHour"
+        :scheduleEndMin="obj.scheduleEndMin"
         :transmitionDays="obj.transmitionDays"
       >
       </my-cell>
@@ -36,16 +38,16 @@ export default {
         // {texto: '05:30', tipo: 'hora', x: 0, y: 71, startHour: '', endHour: ''},
         // {texto: '05:45', tipo: 'hora', x: 0, y: 111, startHour: '', endHour: ''},
         // {texto: '06:00', tipo: 'hora', x: 0, y: 151, startHour: '', endHour: ''},
-        {texto: 'LUNES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:[]},
-        {texto: 'MARTES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:[]},
-        {texto: 'MIERCOLES', tipo: 'cabecera', x: 0, y: 0, startHour: '', endHour: '', transmitionDays:[]},
-        {texto: 'JUEVES', tipo: 'cabecera', x: 885, y: 0, startHour: '', endHour: '', transmitionDays:[]},
-        {texto: 'VIERNES', tipo: 'cabecera', x: 1160, y: 0, startHour: '', endHour: '', transmitionDays:[]},
-        {texto: 'SABADO', tipo: 'cabecera', x: 1435, y: 0, startHour: '', endHour: '', transmitionDays:[]},
-        {texto: 'DOMINGO', tipo: 'cabecera', x: 1710, y: 0, startHour: '', endHour: '', transmitionDays:[]},
-        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 06:30', transmitionDays: ['Lunes','Martes','Miércoles']},//x: 360, y: (3508 / (24 * 60)) * 15
-        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', startHour: 'March 13, 08 06:30', endHour: 'March 13, 08 08:00', transmitionDays: ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado', 'Domingo']},//x: 61, y: (3508 / (24 * 60)) * 15 + 40
-        {texto: 'AMERICA DEPORTE (G)', tipo: 'celda', startHour: 'March 13, 08 08:00', endHour: 'March 13, 08 08:30', transmitionDays: ['Miércoles','Jueves']},
+        {texto: 'LUNES', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
+        {texto: 'MARTES', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
+        {texto: 'MIERCOLES', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
+        {texto: 'JUEVES', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
+        {texto: 'VIERNES', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
+        {texto: 'SABADO', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
+        {texto: 'DOMINGO', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', scheduleStartHour: '05', scheduleStartMin: '16', scheduleEndHour: '06', scheduleEndMin: '30', transmitionDays: ['Lunes','Martes','Miércoles']},//x: 360, y: (3508 / (24 * 60)) * 15
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', scheduleStartHour: '06', scheduleStartMin: '30', scheduleEndHour: '08', scheduleEndMin: '00', transmitionDays: ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado', 'Domingo']},//x: 61, y: (3508 / (24 * 60)) * 15 + 40
+        {texto: 'AMERICA DEPORTE (G)', tipo: 'celda', scheduleStartHour: '08', scheduleStartMin: '00', scheduleEndHour: '08', scheduleEndMin: '30', transmitionDays: ['Miércoles','Jueves']},
         // {texto: 'AMERICA ESPECTACULOS (REPETICION)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 06:25', transmitionDays: ['Martes']},
         // {texto: 'AMERICA NOTICIAS: MATUTINO (GP)', tipo: 'celda', startHour: 'March 13, 08 06:25', endHour: 'March 13, 08 06:50', transmitionDays: ['Martes']},
         // {texto: 'AMERICA NOTICIAS: EDICION DEL SABADO (GP)', tipo: 'celda', startHour: 'March 13, 08 06:50', endHour: 'March 13, 08 08:35', transmitionDays: ['Martes']},

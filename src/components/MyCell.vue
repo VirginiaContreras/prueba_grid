@@ -22,11 +22,19 @@ export default {
       type: String,
       default: 'celda'
     },
-    startHour: {
+    scheduleStartHour: {
       type: String,
       default: ''
     },
-    endHour: {
+    scheduleStartMin: {
+      type: String,
+      default: ''
+    },
+    scheduleEndHour: {
+      type: String,
+      default: ''
+    },
+    scheduleEndMin: {
       type: String,
       default: ''
     },
@@ -48,6 +56,8 @@ export default {
       time: null,
       alto: null,
       ancho: null,
+      x: 0,
+      y: 0,
       resolutionWidth: 2480,
       resolutionHigh: 3508,
       highHeadboard: null,
@@ -84,16 +94,13 @@ export default {
   },
   methods: {
     createdCell(tipo, transmitionDays) {
-      // "scheduleStartHour": "02",
-      // "scheduleStartMin": "10",
-      // "scheduleEndHour": "03",
-      // "scheduleEndMin": "05",
       if(tipo === 'celda') {
         //Calculando tiempo del programa
-        let hoursEndHour = new Date(this.endHour).getHours()// horas fin
-        let minutesEndHour = new Date(this.endHour).getMinutes()//minutos fin
-        let hoursStartHour = new Date(this.startHour).getHours()// horas empieza
-        let minutesStartHour = new Date(this.startHour).getMinutes()//minutos empieza
+        let hoursStartHour = this.generateHour(this.scheduleStartHour)// horas fin
+        let minutesStartHour = this.generateMinutes(this.scheduleStartMin)//minutos fin
+        let hoursEndHour = this.generateHour(this.scheduleEndHour)// horas empieza
+        let minutesEndHour = this.generateMinutes(this.scheduleEndMin)//minutos empieza
+        
 
         this.hourString = this.showHoursString(hoursStartHour, minutesStartHour, hoursEndHour, minutesEndHour)
         let sumMinEndHour = (hoursEndHour * 60) + minutesEndHour
@@ -109,7 +116,7 @@ export default {
         //Calculando alto de la celda
         this.alto = this.time * this.calcMinHightToPixel()  
         //Calculando ancho de la celda
-        debugger
+        //debugger
         if( this.transmitionDays.length === 1) {
           this.ancho = this.resolutionWidth/7
         } else if ( this.transmitionDays.length > 1 ) {//Si tiene más de una celda y es consecutivo
@@ -139,42 +146,42 @@ export default {
         if ( hoursStartHour <= 5 && minutesStartHour <= 15) {
           this.y = (((24 * 60) + startTime )* this.calcMinHightToPixel()) - 632 
         } else {
-          this.y = (startTime * (this.resolutionHigh / (24 * 60))) - 632 //pixeles desde 00:00 hasta 05:16
+          this.y = (startTime * this.calcMinHightToPixel()) - 632 //pixeles desde 00:00 hasta 05:16
         }
         
-        console.log(startTime)
-        console.log(this.y)
-        console.log(this.time)
-        console.log(this.alto)
+        // console.log(startTime)
+        // console.log(this.y)
+        // console.log(this.time)
+        // console.log(this.alto)
         //transmitionDays[0] indica en que día comienza el horario estableciendo 'X'
-        if ( transmitionDays.length !== 0) {
-          switch(transmitionDays[0]) {
+        if ( this.transmitionDays.length !== 0) {
+          switch(this.transmitionDays[0]) {
             case "Lunes":
               this.x = 0;
               break;
             case "Martes":
               //Calculando X de la celda
-              this.x = this.ancho + 1;
+              this.x = this.calcWidth() + 1;
               break;
             case "Miércoles":
               //Calculando X de la celda
-              this.x = (this.ancho) * 2 + 1;
+              this.x = this.calcWidth() * 2 + 1;
               break;
             case "Jueves":
               //Calculando X de la celda
-              this.x = (this.ancho) * 3 + 1;
+              this.x = this.calcWidth() * 3 + 1;
               break;
             case "Viernes":
               //Calculando X de la celda
-              this.x = (this.ancho) * 4 + 1;
+              this.x = this.calcWidth() * 4 + 1;
               break;
             case "Sábado":
               //Calculando X de la celda
-              this.x = (this.ancho) * 5 + 1;
+              this.x = this.calcWidth() * 5 + 1;
               break;
             case "Domingo":
               //Calculando X de la celda
-              this.x = (this.ancho) * 6 + 1;
+              this.x = this.calcWidth() * 6 + 1;
           }   
         }
         
@@ -294,20 +301,16 @@ export default {
       }
     },
     generateHour(hour) {
-      if ( hour[0] === 0 ) {
-        return hour = hour.shift()
-      }
+      return parseInt(hour)
     },
     generateMinutes(minutes) {
-      if ( minutes[0] === 0 ) {
-        return minutes = minutes.shift()
-      }
+      return parseInt(minutes)
     },
     calcTime(endHour, startHour) {
       this.time = (new Date(this.endHour).getHours() - new Date(this.startHour).getHours())*60
     },
      calcMinHightToPixel () {
-      return this.alto = this.resolutionHigh / (24 * 60)
+      return this.resolutionHigh / (24 * 60)
     },
     showHoursString (hoursStartHour, minutesStartHour, hoursEndHour, minutesEndHour) {
       if ( hoursStartHour === 0 || hoursStartHour < 10 ) {
@@ -324,8 +327,8 @@ export default {
       }
       return hoursStartHour + ':' + minutesStartHour + ' - ' + hoursEndHour + ':' + minutesEndHour
     },
-    calcAncho () {
-      this.ancho = 2480 / 9
+    calcWidth () {
+      return this.resolutionWidth / 7
     }
   },
   render () {
@@ -374,14 +377,6 @@ export default {
     ctx.stroke();
     ctx.closePath();
 
-    //Dibujando el cuadrado de la hora interna
-    ctx.beginPath();
-    ctx.rect(this.x, this.y,20, 15);
-    ctx.fillStyle = background;
-    ctx.fill();
-    ctx.background = '#FFDCCC';
-    ctx.closePath();
-
     // ctx.beginPath();
     // ctx.rect(this.x, this.y, this.ancho / 3, this.alto / 3);
     // ctx.strokeStyle = border;
@@ -394,18 +389,29 @@ export default {
     ctx.textAlign = 'center';
     ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));//this.y + (this.alto / 2
     // Draw the hours
-    
-    ctx.fillStyle = color;
-    ctx.font = '10px sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(this.hourString, (this.x + 50), (this.y + 15));
-    //ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));
 
-    console.log(this.alto, 'alto')
-    console.log(this.ancho, 'ancho')
-    console.log(this.time, 'time')
-    console.log(this.tipo, 'tipo')
-    console.log(this.transmitionDays, 'transmitionDays')
+    //Dibujando el cuadrado de la hora interna
+    if ( this.tipo === 'celda') {
+      ctx.beginPath();
+      ctx.rect(this.x, this.y, 65, 15);
+      ctx.fillStyle = '#FFDCCC';
+      ctx.fill();
+      ctx.background = '#FFDCCC';
+      ctx.closePath();
+      
+      ctx.fillStyle = color;
+      ctx.font = '10px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(this.hourString, (this.x + 5), (this.y + 10));
+      //ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));
+    }
+    
+
+    // console.log(this.alto, 'alto')
+    // console.log(this.ancho, 'ancho')
+    // console.log(this.time, 'time')
+    // console.log(this.tipo, 'tipo')
+    // console.log(this.transmitionDays, 'transmitionDays')
   },
   created() {
     //this.alto = 3508 / (24 * 60)
