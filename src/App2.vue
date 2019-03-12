@@ -3,7 +3,7 @@
     <h2>Calendario</h2>
     <!-- 600 -->
     <my-canvas style="width: 3508px; height: 3548px;">
-      <my-cell
+      <!-- <my-cell
         v-for="(obj, index) in schedule"  :key="index"
         :tipo="obj.tipo"
         :texto="obj.texto"
@@ -13,7 +13,8 @@
         :scheduleEndMin="obj.scheduleEndMin"
         :transmitionDays="obj.transmitionDays"
       >
-      </my-cell>
+      </my-cell> -->
+      <ValidationDay v-for="(obj, index) in schedule" :key="index" :schedule="obj"></ValidationDay>
     </my-canvas>
   </div>
 </template>
@@ -21,11 +22,13 @@
 <script>
 import MyCanvas from './components/MyCanvas.vue';
 import MyCell from './components/MyCell.vue';
+import ValidationDay from './components/ValidationDay.vue';
 export default {
   name: 'app',
   components: {
     MyCanvas,
-    MyCell
+    MyCell,
+    ValidationDay
   },
 
   data () {
@@ -45,7 +48,7 @@ export default {
         {texto: 'VIERNES', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
         {texto: 'SABADO', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
         {texto: 'DOMINGO', tipo: 'cabecera', scheduleStartHour: '', scheduleStartMin: '', scheduleEndHour: '', scheduleEndMin: '', transmitionDays:[]},
-        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', scheduleStartHour: '05', scheduleStartMin: '16', scheduleEndHour: '06', scheduleEndMin: '30', transmitionDays: ['Lunes','Martes','Miércoles']},//x: 360, y: (3508 / (24 * 60)) * 15
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', tipo: 'celda', scheduleStartHour: '05', scheduleStartMin: '16', scheduleEndHour: '06', scheduleEndMin: '30', transmitionDays: ['Lunes','Martes','Miércoles', 'Viernes','Sábado']},//x: 360, y: (3508 / (24 * 60)) * 15
         {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', tipo: 'celda', scheduleStartHour: '06', scheduleStartMin: '30', scheduleEndHour: '08', scheduleEndMin: '00', transmitionDays: ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado', 'Domingo']},//x: 61, y: (3508 / (24 * 60)) * 15 + 40
         {texto: 'AMERICA DEPORTE (G)', tipo: 'celda', scheduleStartHour: '08', scheduleStartMin: '00', scheduleEndHour: '08', scheduleEndMin: '30', transmitionDays: ['Miércoles','Jueves']},
         // {texto: 'AMERICA ESPECTACULOS (REPETICION)', tipo: 'celda', startHour: 'March 13, 08 05:16', endHour: 'March 13, 08 06:25', transmitionDays: ['Martes']},

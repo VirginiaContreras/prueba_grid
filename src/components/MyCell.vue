@@ -41,8 +41,17 @@ export default {
     transmitionDays: {
       type: Array,
       default: ''
+    },
+    days: {
+      type: Array,
+      default: ''
+    },
+    type: {
+      type: String,
+      default: ''
     }
   },
+  // props: [ 'texto', 'tipo']
   data () {
     return {
       // We cache the dimensions of the previous
@@ -94,6 +103,8 @@ export default {
   },
   methods: {
     createdCell(tipo, transmitionDays) {
+      // console.log(tipo, 'tipo')
+      // console.log(transmitionDays, 'transmitionDays')
       if(tipo === 'celda') {
         //Calculando tiempo del programa
         let hoursStartHour = this.generateHour(this.scheduleStartHour)// horas fin
@@ -416,7 +427,7 @@ export default {
   created() {
     //this.alto = 3508 / (24 * 60)
     //this.ancho = 2480 / 9    
-    this.createdCell(this.tipo, this.transmitionDays)
+    this.createdCell(this.tipo, this.type, this.days)
     // console.log(this.transmitionDays, 'transmitionDays created')
     // if(this.tipo === 'celda') {
     //   let hoursEndHour = new Date(this.endHour).getHours()// horas fin
