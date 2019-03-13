@@ -42,10 +42,10 @@ export default {
       type: Array,
       default: ''
     },
-    days: {
+    /*days: {
       type: Array,
       default: ''
-    },
+    },*/
     type: {
       type: String,
       default: ''
