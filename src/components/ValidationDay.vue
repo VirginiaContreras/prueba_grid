@@ -70,7 +70,7 @@ export default {
 				let arrayDaysCellGroup = []
 				let arrayDaysCellUniques = []
 				let cacthValue = false
-				let i = 0
+				//let i = 0
 				// while(daysNumber[i] === (daysNumber[i + 1] - 1)) {
 				// 	cacthValue = true
 				// 	arrayDaysCell.push(this.schedule.transmitionDays[i])
@@ -81,18 +81,29 @@ export default {
 				// cacthValue = false
 				
 				let a = ''
-				console.log(daysNumber);
+				console.log(daysNumber,'daysNumber');
+				
 				for (let i = 0; i < daysNumber.length; i++) {
-					
-					if ( daysNumber[i] === (daysNumber[i + 1] - 1) ) {						
+					if ( daysNumber[i] === (daysNumber[i + 1] - 1) ) {
+						debugger						
 						//arrayDaysCell.push(this.schedule.transmitionDays[i])
 						//arrayDaysCell.push(this.schedule.transmitionDays[i + 1])
 						//arrayDaysCellUniques = [[...new Set(arrayDaysCell)]]
-						if(a === '' || a.charAt(a.length-1) === '-'){
+						
+						if (a.length !== 0 && a.charAt(a.length-1) === '-') {
+							console.log('condicion')	
+							a += daysNumber[i + 1]
+							a += '-'
+						}
+						else if(a === '' || a.charAt(a.length-1) === '-'){
 							a += daysNumber[i]
-						}							
-						a += daysNumber[i + 1]													 					
+						}		
+						a += daysNumber[i + 1]
 					}
+					// else if ((daysNumber[i] !== daysNumber[i + 1] - 1 ) && (daysNumber[i + 1] !== daysNumber[i + 2] - 1)) {
+					// 	console.log('condicion')	
+					// 	a += '-' + daysNumber[i + 1] + '-'
+					// }
 					else {
 						if(a === '' || a.charAt(a.length-1) === '-'){
 							a += daysNumber[i]
