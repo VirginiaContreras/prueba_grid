@@ -73,13 +73,6 @@ export default {
       yPrev: 41,
       altoPrevCell: null,
       hourString: ''
-      // yCountLun: 0,
-      // yCountMar: 0,
-      // yCountMie: 0,
-      // yCountJue: 0,
-      // yCountVie: 0,
-      // yCountSab: 0,
-      // yCountDom: 0,
       //timeInterval: 15,
     }
   },
@@ -153,9 +146,15 @@ export default {
         
         //Calculando Y
         startTime = ((hoursStartHour * 60) + minutesStartHour) - 40
-    
-        if ( hoursStartHour <= 5 && minutesStartHour <= 15) {
-          this.y = (((24 * 60) + startTime )* this.calcMinHightToPixel()) - 632 
+
+        let startTimestamp = new Date()
+        startTimestamp.setHours(hoursStartHour, minutesStartHour, 0)
+
+        let limitTimestamp = new Date()
+        limitTimestamp.setHours(5, 16, 0)
+
+        if ( startTimestamp < limitTimestamp) {
+          this.y = (((24 * 60) + startTime ) * this.calcMinHightToPixel()) - 632 
         } else {
           this.y = (startTime * this.calcMinHightToPixel()) - 632 //pixeles desde 00:00 hasta 05:16
         }
@@ -198,88 +197,14 @@ export default {
         
         //Calculando posición 'Y' en función al tiempo en pixeles
         //debugger
-        if( hoursStartHour === 5 && minutesStartHour === 16) {//Calculando el y por tiempo en pixeles
-          //Calculando la primera celda
-          //this.y = this.yPrev
-          // console.log(this.y, 'y1')
-          // console.log(this.yPrev, 'yPrev1')
-          localStorage.setItem("yPrev", this.yPrev);
-          localStorage.setItem("altoPrev", this.alto);
-        }
-         /*else {             
-          switch(transmitionDays[0]) {
-            case "Lunes":
-              this.x = 0;
-              break;
-            case "Martes":
-              //Reiniciando valores de Y - verificando si es la primera celda Martes
-              if ( Number(localStorage.getItem('yCountMar')) === 0 ) {
-                localStorage.setItem("yPrev", this.yPrev);
-              }           
-              this.yCountMar++
-              localStorage.setItem("yCountMar", this.yCountMar)
-              break;
-            case "Miércoles":
-              //Reiniciando valores de Y - verificando si es la primera celda Miércoles
-              if ( Number(localStorage.getItem('yCountMie')) === 0 ) {
-                localStorage.setItem("yPrev", this.yPrev);
-              }              
-              this.yCountMie++
-              localStorage.setItem("yCountMie", this.yCountMie)
-              break;
-            case "Jueves":
-              //Reiniciando valores de Y - verificando si es la primera celda Jueves
-              if ( Number(localStorage.getItem('yCountJue')) === 0 ) {
-                localStorage.setItem("yPrev", this.yPrev);
-              }              
-              this.yCountJue++
-              localStorage.setItem("yCountJue", this.yCountJue)
-              break;
-            case "Viernes":
-              //Reiniciando valores de Y - verificando si es la primera celda Viernes
-              if ( Number(localStorage.getItem('yCountVie')) === 0 ) {
-                localStorage.setItem("yPrev", this.yPrev);
-              }              
-              this.yCountVie++
-              localStorage.setItem("yCountVie", this.yCountVie)
-              //Calculando X de la celda
-              this.x = (this.ancho) * 4 + 1;
-              break;
-            case "Sábado":
-              //Reiniciando valores de Y - verificando si es la primera celda Sábado
-              if ( Number(localStorage.getItem('yCountSab')) === 0 ) {
-                localStorage.setItem("yPrev", this.yPrev);
-              }              
-              this.yCountSab++
-              localStorage.setItem("yCountSab", this.yCountSab)
-              //Calculando X de la celda
-              this.x = (this.ancho) * 5 + 1;
-              break;
-            case "Domingo":
-              //Reiniciando valores de Y - verificando si es la primera celda Domingo
-              if ( Number(localStorage.getItem('yCountDom')) === 0 ) {
-                localStorage.setItem("yPrev", this.yPrev);
-              }              
-              this.yCountDom++
-              localStorage.setItem("yCountDom", this.yCountDom)
-              //Calculando X de la celda
-              this.x = (this.ancho) * 6 + 1;
-          }  
-          //Calculando Y de las celdas posteriores 
-          let altoPrev = localStorage.getItem('altoPrev')  
-          let yPrev = localStorage.getItem('yPrev')  
-          this.y = Number(yPrev) + Number(altoPrev)
-          console.log('Datos')
-          console.log(yPrev,'yPrev')
-          console.log(altoPrev,'altoPrev')
-          console.log(Number(yPrev) + Number(altoPrev),'suma')
-          console.log(this.y, 'y')        
-          console.log(altoPrev, 'altoPrevCell')   
-          console.log(this.yPrev, 'yPrev')
-          localStorage.setItem("yPrev", this.y);
-          localStorage.setItem("altoPrev", this.alto);
-        }*/
-        
+        // if( hoursStartHour === 5 && minutesStartHour === 16) {//Calculando el y por tiempo en pixeles
+        //   //Calculando la primera celda
+        //   //this.y = this.yPrev
+        //   // console.log(this.y, 'y1')
+        //   // console.log(this.yPrev, 'yPrev1')
+        //   localStorage.setItem("yPrev", this.yPrev);
+        //   localStorage.setItem("altoPrev", this.alto);
+        // }           
       } 
       else if( tipo === 'cabecera') {
         this.time = ''
@@ -361,16 +286,12 @@ export default {
       background = '#FFFFFF';
       color = '#000000'; 
       border = '#00000';
-      // labelBackgroundColor = "gray";
-			// labelFontColor = "white";
     }
     else if (this.tipo == 'cabecera') {
       background = '#FF5000';
       color = '#FFFFFF';  
       border = '#FF5000';  
     } else {
-      // labelBackgroundColor = "gray";
-			// labelFontColor = "white";
       background = '#FFDCCC';
       color = '#000000';  
       border = '#FFDCCC'; 
@@ -395,14 +316,42 @@ export default {
     // ctx.closePath();
 
     // Draw the text
-    ctx.fillStyle = color;
-    ctx.font = '12px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));//this.y + (this.alto / 2
-    // Draw the hours
+    if (this.alto > 22) {
 
+      let textWidth = this.texto.length //40 letras maximo por columna
+      let countColumns = this.transmitionDays.length
+
+      if(textWidth < (40 * countColumns)){
+        ctx.fillStyle = color;
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));
+      }
+      else{        
+        let arrofwords = this.texto.split(' '); //separar texto por espacios
+        let middle = arrofwords.length / 2; //contar la mitad de las palabras
+        arrofwords.splice(middle, 0, '\n'); //añadir salto de linea a la mitad
+        let textoFormat = arrofwords.join(''); //volver a unir
+
+        let lines = textoFormat.split('\n'); //separar por salto de linea
+        let lineheight = 15; //separacion de lineas
+
+        //dibujar
+        ctx.fillStyle = color;
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+
+        //dibujar cada linea
+        for (let i = 0; i<lines.length; i++){
+          ctx.fillText(lines[i], (this.x + (this.ancho / 2)), ((this.y + this.alto - 5) - 20) + (i * lineheight) );
+        }
+      }
+      
+    }
+
+    // Draw the hours
     //Dibujando el cuadrado de la hora interna
-    if ( this.tipo === 'celda') {
+    if ( this.tipo === 'celda' && this.alto > 22) {
       ctx.beginPath();
       ctx.rect(this.x, this.y, 65, 15);
       ctx.fillStyle = '#FFDCCC';
@@ -424,64 +373,8 @@ export default {
     // console.log(this.tipo, 'tipo')
     // console.log(this.transmitionDays, 'transmitionDays')
   },
-  created() {
-    //this.alto = 3508 / (24 * 60)
-    //this.ancho = 2480 / 9    
-    this.createdCell(this.tipo, this.type, this.days)
-    // console.log(this.transmitionDays, 'transmitionDays created')
-    // if(this.tipo === 'celda') {
-    //   let hoursEndHour = new Date(this.endHour).getHours()// horas fin
-    //   let minutesEndHour = new Date(this.endHour).getMinutes()//minutos fin
-    //   let hoursStartHour = new Date(this.startHour).getHours()// horas empieza
-    //   let minutesStartHour = new Date(this.startHour).getMinutes()//minutos empieza
-    //   this.time = ((hoursEndHour * 60) + minutesEndHour) - ((hoursStartHour * 60) + minutesStartHour)
-    //   this.alto = this.time * (this.resolutionHigh / (24 * 60))
-    //   this.ancho = this.resolutionWidth/7
-    //   console.log(this.time, 'fff')
-    //   if (this.transmitionDays.length !== 0) {
-    //     for(i = 0; i < this.transmitionDays.length; i++){
-    //       switch(this.transmitionDays) {
-    //       case "Lunes":
-    //         this.x = 60;
-    //         this.y = (3508 / (24 * 60)) * this.time
-    //         break;
-    //       case "Martes":
-    //         this.x = 335;
-    //         this.y = (3508 / (24 * 60)) * this.time
-    //         break;
-    //       case "Miércoles":
-    //         this.x = 610;
-    //         this.y = (3508 / (24 * 60)) * this.time
-    //         break;
-    //       case "Jueves":
-    //         this.x = 885;
-    //         break;
-    //       case "Viernes":
-    //         this.x = 1160;
-    //         break;
-    //       case "Sábado":
-    //         this.x = 1435;
-    //         break;
-    //       case "Domingo":
-    //         this.x = 1710;
-    //       }
-    //   }
-      
-      
-    //   }
-    // }    
-    // else if(this.tipo === 'hora') {
-    //   this.time = ''
-    //   this.alto = (this.resolutionHigh / (24 * 60)) * this.timeInterval//36.5416..
-    //   this.ancho = 60
-    //   this.anchoHora = this.ancho
-    // }
-    // else if(this.tipo === 'cabecera') {
-    //   this.time = ''
-    //   this.alto = (this.resolutionHigh / (24 * 60)) * 15
-    //   this.ancho = this.resolutionWidth / 7//2480
-    // }
-    
+  created() { 
+    this.createdCell(this.tipo, this.type, this.days)    
   }
 }
 </script>

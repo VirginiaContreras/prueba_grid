@@ -142,8 +142,7 @@ export default {
 		}
 	},
 	created() {
-		this.validationDays(this.schedule.tipo, this.schedule.transmitionDays)
-		//console.log(this.schedule.transmitionDays,'hhh')
+		this.validationDays(this.schedule.tipo, this.schedule.transmitionDays)		
 	}
 }
 </script>
