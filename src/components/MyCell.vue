@@ -293,9 +293,9 @@ export default {
   render () {
     if(!this.provider.context) return;
     const ctx = this.provider.context;
-    console.log(ctx.canvas.offsetY, 'canvas top' )
-    console.log(ctx.canvas.offsetX, 'canvas left' )
-    console.log(ctx.canvas.width, 'canvas width' )
+    //console.log(ctx.canvas.offsetY, 'canvas top' )
+    //console.log(ctx.canvas.offsetX, 'canvas left' )
+    //console.log(ctx.canvas.width, 'canvas width' )
     // Keep a reference to the box used in the previous render call.
     //const oldBox = this.oldBox
     // Calculate the new box. (Computed properties update on-demand.)
@@ -376,12 +376,65 @@ export default {
     else {
       // e.preventDefault();
       // e.stopPropagation();
-      ctx.beginPath();
-      ctx.rect((this.x + this.ancho)/2, (this.y + this.alto)/2, 65, 15);
+      /*ctx.beginPath();
+      ctx.rect(this.x, this.y, this.ancho, this.alto);
       ctx.fillStyle = 'blue';
       ctx.fill();
       ctx.background = 'blue';
-      ctx.closePath();
+      ctx.closePath();*/
+
+      let myX = this.x
+      let myY = this.y
+      let myAncho = this.ancho
+      let myAlto = this.alto
+      let myTexto = this.texto
+
+      ctx.canvas.addEventListener('mousemove', function (event) {
+
+        let rectangle = new Path2D()
+        rectangle.rect(myX, myY, myAncho, myAlto)
+        ctx.stroke(rectangle)
+
+        let r = this.getBoundingClientRect()
+        let coordX = event.clientX - r.left
+        let coordY = event.clientY - r.top
+
+        //preparo el rectangulo
+        ctx.beginPath();
+        ctx.rect(myX, myY, myAncho, myAlto);
+
+        if (ctx.isPointInPath(rectangle, coordX, coordY)) {
+          console.log('dentro')          
+          ctx.fillStyle = 'blue'; //color de relleno si estoy dentro
+
+          //dibujar texto
+          /*ctx.fillStyle = color;
+          ctx.font = '12px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(myTexto, (myX + (myAncho / 2)), (myY + myAlto - 5));*/
+        }
+        else{
+          //console.log('fuera')
+          ctx.fillStyle = 'white'; //color de relleno si estoy fuera
+        }
+
+        //dibujo rectangulo
+        ctx.fill();
+        ctx.closePath();
+        
+           
+        /*ctx.beginPath();
+        ctx.rect(this.x, this.y, this.ancho, this.alto);
+        ctx.fillStyle = ctx.isPointInPath(this.x, this.y) ? "blue":"yellow";
+        ctx.fill();
+
+        ctx.fillStyle = color;
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(this.texto, (this.x + (this.ancho / 2)), (this.y + this.alto - 5));*/
+
+      }, false)
+
     }
 
     // Draw the hours
