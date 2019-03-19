@@ -388,13 +388,27 @@ export default {
       let myAncho = this.ancho
       let myAlto = this.alto
       let myTexto = this.texto
-
+      debugger
       ctx.canvas.addEventListener('mousemove', function (event) {
+        //Prueba con div
+        ctx.canvas.childNodes[0].style.position  = 'relative'
+
+        ctx.canvas.childNodes[0].innerHtml = 'avisooooooooooo'
+        ctx.canvas.childNodes[0].childNodes[0].innerHtml = 'avisooooooooooo'
+        ctx.canvas.childNodes[0].childNodes[0].style.color = 'blue'
+        ctx.canvas.childNodes[0].childNodes[0].style.backgroundColor  = 'yellow' 
+        ctx.canvas.childNodes[0].childNodes[0].tabIndex  = '9999'    
+        ctx.canvas.childNodes[0].childNodes[0].width = 20
+        ctx.canvas.childNodes[0].childNodes[0].height = 20   
+        // ctx.canvas.childNodes[0].childNodes[0].style.zIndex  = '9999'
+
+        console.log(ctx.canvas.childNodes[0].childNodes[0].innerHtml = 'aviso')
 
         let rectangle = new Path2D()
         rectangle.rect(myX, myY, myAncho, myAlto)
         ctx.stroke(rectangle)
-
+        console.log(myAncho,'myAncho')
+        console.log(myAlto,'myAlto')
         let r = this.getBoundingClientRect()
         let coordX = event.clientX - r.left
         let coordY = event.clientY - r.top
@@ -407,15 +421,23 @@ export default {
           console.log('dentro')          
           ctx.fillStyle = 'blue'; //color de relleno si estoy dentro
 
+          //dibujar tooltip
+          let rectangle = new Path2D()
+          rectangle.rect(coordX - 400, coordY - 85, 800, 80)
+          ctx.canvas.zIndex = -999
+          ctx.stroke(rectangle)
+          
           //dibujar texto
-          /*ctx.fillStyle = color;
+          ctx.fillStyle = 'blue';
           ctx.font = '12px sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText(myTexto, (myX + (myAncho / 2)), (myY + myAlto - 5));*/
+          ctx.fillText(myTexto, (coordX), (coordY - 10));
+          // ctx.fillText(myTexto, (myX + (myAncho / 2)), (myY + myAlto - 5));
         }
         else{
           //console.log('fuera')
           ctx.fillStyle = 'white'; //color de relleno si estoy fuera
+          //ctx.clearRect(coordX - 400,coordY - 80,800,80);
         }
 
         //dibujo rectangulo
