@@ -34,6 +34,15 @@ export default {
     // Normally you'd use a more flexible resize system.
     this.$refs['my-canvas'].width = this.$refs['my-canvas'].parentElement.clientWidth
     this.$refs['my-canvas'].height = this.$refs['my-canvas'].parentElement.clientHeight
+    this.$refs['my-canvas'].offsetX = this.$refs['my-canvas'].parentElement.clientLeft
+    this.$refs['my-canvas'].offsetY = this.$refs['my-canvas'].parentElement.clientTop
+    // this.$refs['my-canvas'].offsetX = this.$refs['my-canvas'].parentElement.getBoundingClientRect.left
+    // this.$refs['my-canvas'].offsetY = this.$refs['my-canvas'].parentElement.getBoundingClientRect.top
+  },
+  methods: {
+    mouseover() {
+
+    }
   }
 }
 </script>

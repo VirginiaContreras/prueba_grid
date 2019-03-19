@@ -2,7 +2,8 @@
 
 const percentWidthToPix = (percent, ctx) => Math.floor((ctx.canvas.width / 100) * percent)
 const percentHeightToPix = (percent, ctx) => Math.floor((ctx.canvas.height / 100) * percent)
-
+const percentTopToPix = (percent, ctx) => Math.floor((ctx.canvas.offsetX / 100) * percent)
+const percentLeftToPix = (percent, ctx) => Math.floor((ctx.canvas.offsetY / 100) * percent)
 export default {
   inject: ['provider'],
   props: {
@@ -72,7 +73,10 @@ export default {
       highHeadboard: null,
       yPrev: 41,
       altoPrevCell: null,
-      hourString: ''
+      hourString: '',
+      offsetX: 0,
+      offsetY: 0,
+      active: false,
       //timeInterval: 15,
     }
   },
@@ -85,7 +89,9 @@ export default {
         x: percentWidthToPix(this.x, ctx),
         y: percentHeightToPix(this.y, ctx),
         w: percentWidthToPix(this.ancho, ctx),//this.ancho
-        h: percentHeightToPix(this.alto, ctx)
+        h: percentHeightToPix(this.alto, ctx),
+        offsetX: percentTopToPix(this.offsetX,ctx),
+        offsety: percentTopToPix(this.offsetY,ctx)
       }
 
       // Yes yes, side-effects. This lets us cache the box dimensions of the previous render.
@@ -265,12 +271,31 @@ export default {
     },
     calcWidth () {
       return this.resolutionWidth / 7
+    },
+    reOffset () {
+      let offsetX = this.offsetX;
+      let offsetY = this.offsetY;  
+      console.log(this.offsetX,'left')
+      console.log(this.offsetY,'top')
+      console.log(offsetX,'offsetX')
+      console.log(offsetY,'offsetY')
+      
+    },
+    mouseOver () {
+      if (this.alto <= 22) {
+        this.active = !this.active; 
+        // e.preventDefault();
+        // e.stopPropagation();
+      }
+        
     }
   },
   render () {
     if(!this.provider.context) return;
     const ctx = this.provider.context;
-
+    console.log(ctx.canvas.offsetY, 'canvas top' )
+    console.log(ctx.canvas.offsetX, 'canvas left' )
+    console.log(ctx.canvas.width, 'canvas width' )
     // Keep a reference to the box used in the previous render call.
     //const oldBox = this.oldBox
     // Calculate the new box. (Computed properties update on-demand.)
@@ -316,7 +341,7 @@ export default {
     // ctx.closePath();
 
     // Draw the text
-    if (this.alto > 22) {
+    if (this.alto > 22 && this.active === false) {
 
       let textWidth = this.texto.length //40 letras maximo por columna
       let countColumns = this.transmitionDays.length
@@ -347,6 +372,16 @@ export default {
         }
       }
       
+    } 
+    else {
+      // e.preventDefault();
+      // e.stopPropagation();
+      ctx.beginPath();
+      ctx.rect((this.x + this.ancho)/2, (this.y + this.alto)/2, 65, 15);
+      ctx.fillStyle = 'blue';
+      ctx.fill();
+      ctx.background = 'blue';
+      ctx.closePath();
     }
 
     // Draw the hours
@@ -375,6 +410,30 @@ export default {
   },
   created() { 
     this.createdCell(this.tipo, this.type, this.days)    
+    // this.reOffset();
+    // window.onscroll = (e) => { this.reOffset() }
+    // window.onresize = (e) => { this.reOffset() }
+    // this.provider.context.onmousemove((e) => {handleMouseMove(e);});
+    // function handleMouseMove(e){
+    //   // tell the browser we're handling this event
+    //   e.preventDefault();
+    //   e.stopPropagation();
+    //   alert(this.left + this.top + 'probando')
+    //   // mouseX=parseInt(e.clientX-offsetX);
+    //   // mouseY=parseInt(e.clientY-offsetY);
+
+    //   // //ctx.clearRect(0,0,cw,ch);
+    //   // //draw();
+    //   // for(let i=0;i<hotspots.length;i++){
+    //   //   let h=hotspots[i];
+    //   //   let dx=mouseX-h.x;
+    //   //   let dy=mouseY-h.y;
+    //   //   if(dx*dx+dy*dy<h.radius*h.radius){
+    //   //     ctx.fillText(h.tip,h.x,h.y);
+    //   //   }
+    //   // }
+
+    // }
   }
 }
 </script>
