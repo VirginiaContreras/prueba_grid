@@ -1,10 +1,11 @@
 <template>
   <div class="my-canvas-wrapper">
     <canvas ref="my-canvas">
-      <div class="tooltip">
-        <span class="tooltiptext"></span>
-      </div>
+      
     </canvas>
+    <div class="tooltip">
+      <span class="tooltiptext"></span>
+    </div>
     <slot></slot>
   </div>
 </template>
@@ -58,13 +59,20 @@ html, body {
 }
 
 .tooltip {
-  position: relative;
+  position: absolute;
+  background-color: red;
+  z-index: 9999;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 50px;
   /* display: inline-block;
   border-bottom: 1px dotted black; */
 }
 
 .tooltip .tooltiptext {
-  visibility: hidden;
+  /*visibility: hidden;*/
   width: 120px;
   background-color: #555;
   color: #fff;
@@ -73,11 +81,11 @@ html, body {
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
+  top: 0;
   left: 50%;
   margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
+  /*opacity: 0;
+  transition: opacity 0.3s;*/
 }
 
 .tooltip .tooltiptext::after {

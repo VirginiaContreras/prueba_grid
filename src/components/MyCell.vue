@@ -388,21 +388,24 @@ export default {
       let myAncho = this.ancho
       let myAlto = this.alto
       let myTexto = this.texto
-      debugger
+      //let myTooltip = document.getElementById('tooltip')
+      //let myTitle = this.title
+      
       ctx.canvas.addEventListener('mousemove', function (event) {
         //Prueba con div
-        ctx.canvas.childNodes[0].style.position  = 'relative'
+        //ctx.canvas.parentNode.childNodes[1].style.position  = 'relative'
 
-        ctx.canvas.childNodes[0].innerHtml = 'avisooooooooooo'
-        ctx.canvas.childNodes[0].childNodes[0].innerHtml = 'avisooooooooooo'
-        ctx.canvas.childNodes[0].childNodes[0].style.color = 'blue'
-        ctx.canvas.childNodes[0].childNodes[0].style.backgroundColor  = 'yellow' 
-        ctx.canvas.childNodes[0].childNodes[0].tabIndex  = '9999'    
-        ctx.canvas.childNodes[0].childNodes[0].width = 20
-        ctx.canvas.childNodes[0].childNodes[0].height = 20   
-        // ctx.canvas.childNodes[0].childNodes[0].style.zIndex  = '9999'
+        //ctx.canvas.parentNode.childNodes[1].innerHTML = 'avisooooooooooo'
+        ctx.canvas.parentNode.childNodes[1].childNodes[0].innerHTML = 'avisooooooooooo'
+        //ctx.canvas.parentNode.childNodes[1].childNodes[0].style.color = 'blue'
+        //ctx.canvas.parentNode.childNodes[1].childNodes[0].style.backgroundColor  = 'yellow' 
+        /*ctx.canvas.parentNode.childNodes[1].childNodes[0].tabIndex  = '9999'    
+        ctx.canvas.parentNode.childNodes[1].childNodes[0].width = 200
+        ctx.canvas.parentNode.childNodes[1].childNodes[0].height = 50 
+        ctx.canvas.parentNode.childNodes[1].childNodes[0].style.visibility = 'visible'
+        ctx.canvas.parentNode.childNodes[1].childNodes[0].style.zIndex  = '9999'*/
 
-        console.log(ctx.canvas.childNodes[0].childNodes[0].innerHtml = 'aviso')
+        console.log(ctx.canvas.parentNode.childNodes[1].childNodes[0].innerHTML = 'aviso')
 
         let rectangle = new Path2D()
         rectangle.rect(myX, myY, myAncho, myAlto)
