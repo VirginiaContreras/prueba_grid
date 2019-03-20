@@ -396,8 +396,8 @@ export default {
         //ctx.canvas.parentNode.childNodes[1].style.position  = 'relative'
 
         //ctx.canvas.parentNode.childNodes[1].innerHTML = 'avisooooooooooo'
-        ctx.canvas.parentNode.childNodes[1].childNodes[0].innerHTML = 'avisooooooooooo'
-        //ctx.canvas.parentNode.childNodes[1].childNodes[0].style.color = 'blue'
+        // ctx.canvas.parentNode.childNodes[1].childNodes[0].innerHTML = 'avisooooooooooo'
+        // ctx.canvas.parentNode.childNodes[1].childNodes[0].style.color = 'white'
         //ctx.canvas.parentNode.childNodes[1].childNodes[0].style.backgroundColor  = 'yellow' 
         /*ctx.canvas.parentNode.childNodes[1].childNodes[0].tabIndex  = '9999'    
         ctx.canvas.parentNode.childNodes[1].childNodes[0].width = 200
@@ -425,16 +425,27 @@ export default {
           ctx.fillStyle = 'blue'; //color de relleno si estoy dentro
 
           //dibujar tooltip
-          let rectangle = new Path2D()
-          rectangle.rect(coordX - 400, coordY - 85, 800, 80)
-          ctx.canvas.zIndex = -999
-          ctx.stroke(rectangle)
+          //tooltip con div
+          //contenedor
+          ctx.canvas.parentNode.childNodes[1].style.position  = 'relative'
+          ctx.canvas.parentNode.childNodes[1].style.top  = coordX
+          ctx.canvas.parentNode.childNodes[1].style.left  = coordY
+          //tooltip
+          ctx.canvas.parentNode.childNodes[1].childNodes[0].innerHTML = myTexto
+          ctx.canvas.parentNode.childNodes[1].childNodes[0].style.width = '800'
+          ctx.canvas.parentNode.childNodes[1].childNodes[0].style.width = '80'
+          ctx.canvas.parentNode.childNodes[1].childNodes[0].style.color = 'white'
           
-          //dibujar texto
-          ctx.fillStyle = 'blue';
-          ctx.font = '12px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(myTexto, (coordX), (coordY - 10));
+          // let rectangle = new Path2D()
+          // rectangle.rect(coordX - 400, coordY - 85, 800, 80)
+          // ctx.canvas.zIndex = -999
+          // ctx.stroke(rectangle)
+          
+          // //dibujar texto
+          // ctx.fillStyle = 'blue';
+          // ctx.font = '12px sans-serif';
+          // ctx.textAlign = 'center';
+          // ctx.fillText(myTexto, (coordX), (coordY - 10));
           // ctx.fillText(myTexto, (myX + (myAncho / 2)), (myY + myAlto - 5));
         }
         else{
