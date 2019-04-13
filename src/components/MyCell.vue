@@ -428,7 +428,7 @@ export default {
           //tooltip con div
           //contenedor
           ctx.canvas.parentNode.childNodes[1].style.position  = 'relative'
-          ctx.canvas.parentNode.childNodes[1].style.top  = coordX
+          ctx.canvas.parentNode.childNodes[1].style.top  = '${coordX}'
           ctx.canvas.parentNode.childNodes[1].style.left  = coordY
           //tooltip
           ctx.canvas.parentNode.childNodes[1].childNodes[0].innerHTML = myTexto
